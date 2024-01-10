@@ -1,0 +1,15 @@
+f = open('input.txt')
+
+lines = f.readlines()
+
+nstrings = {"one":1, "two":2, "three":3, "four":4, "five":5, "six":6, "seven":7, "eight":8, "nine":9}
+total = 0
+for l in lines:
+    s = l
+    for k,v in nstrings.items():
+        s.replace(k,str(v))
+    print(s)
+    #numbers = [c for c in l if c.isdigit()]
+    #number= int(numbers[0]) * 10 + int(numbers[-1])
+        #total = total + number
+print(total)    
