@@ -11,11 +11,30 @@ for l in lines:
     lv = 0 
     for k,v in nstrings.items():
         s = l 
-        s = s.replace(k,str(v))
-        print(s)
-        print("replacing " + k)
-        nums = [c for c in s if c.isdigit()]
-        print(nums)
+        #s = s.replace(k,str(v))
+        #print(s)
+        if k in s:
+            i = s.index(k)
+            if i < fi:
+                fi = i
+                fv = v
+            if i > li:
+                li = i
+                lv = v
+    
+    nums = [c for c in s if c.isdigit()]
+    if len(nums) > 0:
+        if s.index(nums[0]) < fi:
+            fi = s.index(nums[0])
+            fv = int(nums[0])
+        if s.index(nums[-1]) > li:
+            li = s.index(nums[-1])
+            lv = int(nums[-1])
+
+    number = fv * 10 + lv
+    total = total + number
+        #print(nums)
+    '''
         if len(nums) != 0:
             if s.index(nums[0]) < fi:
                 fi = s.index(nums[0])            
@@ -26,4 +45,5 @@ for l in lines:
     number = 10 * fv + lv 
     print(number)
     total = total + number
+    '''
 print(total)   
