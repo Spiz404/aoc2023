@@ -3,50 +3,58 @@ f = open("input.txt")
 RED_MAX = 12
 GREEN_MAX = 13
 BLUE_MAX = 14
-res = 0
+result = 0
+#print("RED_MAX " + str(RED_MAX))
+#print("GREEN_MAX " + str(GREEN_MAX))
+#print("BLUE_MAX " + str(BLUE_MAX))
+
+
+
 for l in f.readlines():
-  
-    # extracting game id
+    valid_game = True
+    extractions = True
+    ex = []
+
     game_id = int(l[4:l.index(":")])
     infos = l[l.index(":")+1:]
-    extractions = True 
-    print(20 * "_")
-    print(l)
-    valid = True
-    while extractions and valid:
-        valid = True
-        # for each game, get single extractions
-        extractions = False 
-        if ";" in infos:  
+
+    while extractions:
+        extractions = False
+        extr = infos
+        if ";" in infos:
             extractions = True
-            g = infos[0: infos.index(";")]
-            infos = infos[infos.index(";") +1:]
-        else:
-            g = infos
-        
-        comma = True
-        while comma and valid:
-            valid = True
-            comma = False
-            cg = g.strip()
-            if "," in g:
-                comma = True
-                cg = g[0:g.index(",")]
-                cg = cg.strip()
-                g = g[g.index(",") + 1:]
+            extr = infos[:infos.index(";")]
+            infos = infos[infos.index(";") + 1:]
+        ex.append(extr)
 
-            value = int(cg[0])
-            color = (cg[1:].strip())
-            print("color: " + color + " value: " + str(value))
-            if color == "red" and value > RED_MAX or \
-                color == "green" and value > GREEN_MAX or \
-                color == "blue" and value > BLUE_MAX:
-                   valid = False
+    #print(ex)
+    
+    for e in ex:
+        extraction = True
+        while extraction:
+            extraction = False
+            s = e
+            if "," in e:
+                extraction = True
+                s = e[:e.index(",")]
+                e = e[e.index(",") + 1:]
 
-            if "," not in cg: 
-                break
-    if valid:
-        res = res + 1
+            s = s.strip()
+            val = ""
+            for c in s:
+                if c == " ":
+                    break
+                else:
+                    val = val + c
+            val = int(val)
+            color = s[len(str(val))+1:].strip()
+            #print("color " + color + " value: " + str(val))
+            if color == "red" and val > RED_MAX or \
+                    color == "green" and val > GREEN_MAX or \
+                    color == "blue" and val > BLUE_MAX:
+                valid_game = False
+    if valid_game: 
+        result = result + game_id
+        #print("game " + str(game_id) + " valid")
 
-
-print(res)
+print(result)
